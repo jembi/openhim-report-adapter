@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:jdbc="http://www.mulesoft.org/schema/mule/jdbc" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="CE-3.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.mulesoft.org/schema/mule/jpa" xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/jdbc http://www.mulesoft.org/schema/mule/jdbc/current/mule-jdbc.xsd
+http://www.mulesoft.org/schema/mule/jpa http://www.mulesoft.org/schema/mule/jpa/current/mule-jpa.xsd">
+    <jpa:config name="Java_Persistence_API" entityManagerFactory-ref="entityManagerFactory" doc:name="Java Persistence API"/>
+    <jdbc:mysql-data-source name="MySQL_Data_Source" user="root" password="Jembi#123" url="jdbc:mysql://localhost:3306/interoperability_layer" transactionIsolation="UNSPECIFIED" doc:name="MySQL Data Source"/>
+    <spring:beans>
+        <spring:bean id="entityManagerFactory" name="Bean" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        	<spring:property name="dataSource" ref="MySQL_Data_Source" />
+        </spring:bean>
+    </spring:beans>
+    <flow name="openhim-report-adapterFlow1" doc:name="openhim-report-adapterFlow1">
+        <http:inbound-endpoint exchange-pattern="request-response" host="0.0.0.0" port="8085" path="ws/rest/v1/report" doc:name="HTTP"/>
+        <component class="org.jembi.openhim.StoreIndicatorReportsComponent" doc:name="Store indicator reports"/>
+        <jpa:persist config-ref="Java_Persistence_API" doc:name="Java Persistence API" entity-ref="#[payload:]"/>
+    </flow>
+</mule>

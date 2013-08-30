@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+	<date>2013-08-28</date>
+	<siteId>363</siteId>
+	<indicator name="responseTimes">
+		<dataElement dataType="int" name="minResponseTimeMS"
+			units="msec">0</dataElement>
+		<dataElement dataType="int" name="maxResponseTimeMS"
+			units="msec">404000</dataElement>
+		<dataElement dataType="int" name="avgResponseTimeMS"
+			units="msec">39295</dataElement>
+	</indicator>
+	<indicator name="archiveQueueStats">
+		<dataElement dataType="int" name="totalTransactions">3</dataElement>
+		<dataElement dataType="int" name="totalEncountersSaved">2</dataElement>
+		<dataElement dataType="int" name="totalPatientsSaved">1</dataElement>
+		<dataElement dataType="int" name="totalPatientsUpdated">0</dataElement>
+	</indicator>
+	<indicator name="errorQueueStats">
+		<dataElement dataType="int" name="totalTransactions">4</dataElement>
+		<dataElement dataType="int" name="totalEncountersSaved">3</dataElement>
+		<dataElement dataType="int" name="totalPatientsSaved">0</dataElement>
+		<dataElement dataType="int" name="totalPatientsUpdated">0</dataElement>
+	</indicator>
+	<indicator name="processingQueueStats">
+		<dataElement dataType="int" name="totalTransactions">5</dataElement>
+		<dataElement dataType="int" name="totalEncountersSaved">4</dataElement>
+		<dataElement dataType="int" name="totalPatientsSaved">1</dataElement>
+		<dataElement dataType="int" name="totalPatientsUpdated">0</dataElement>
+	</indicator>
+	<indicator name="ANC OB and Past Medical History-EncounterStats">
+		<dataElement dataType="string" name="encounterType">ANC OB and Past
+			Medical History</dataElement>
+		<dataElement dataType="int" name="totalEncounters">4</dataElement>
+		<dataElement dataType="int" name="minObsCount">14</dataElement>
+		<dataElement dataType="int" name="maxObsCount">19</dataElement>
+		<dataElement dataType="int" name="avgObsCount">15</dataElement>
+	</indicator>
+	<indicator name="ANC Physical-EncounterStats">
+		<dataElement dataType="string" name="encounterType">ANC Physical
+		</dataElement>
+		<dataElement dataType="int" name="totalEncounters">2</dataElement>
+		<dataElement dataType="int" name="minObsCount">10</dataElement>
+		<dataElement dataType="int" name="maxObsCount">10</dataElement>
+		<dataElement dataType="int" name="avgObsCount">10</dataElement>
+	</indicator>
+	<indicator name="ANC Referral-EncounterStats">
+		<dataElement dataType="string" name="encounterType">ANC Referral
+		</dataElement>
+		<dataElement dataType="int" name="totalEncounters">2</dataElement>
+		<dataElement dataType="int" name="minObsCount">4</dataElement>
+		<dataElement dataType="int" name="maxObsCount">4</dataElement>
+		<dataElement dataType="int" name="avgObsCount">4</dataElement>
+	</indicator>
+	<indicator name="ANC Testing-EncounterStats">
+		<dataElement dataType="string" name="encounterType">ANC Testing
+		</dataElement>
+		<dataElement dataType="int" name="totalEncounters">1</dataElement>
+		<dataElement dataType="int" name="minObsCount">14</dataElement>
+		<dataElement dataType="int" name="maxObsCount">14</dataElement>
+		<dataElement dataType="int" name="avgObsCount">14</dataElement>
+	</indicator>
+</report>

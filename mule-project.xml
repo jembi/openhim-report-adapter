@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-project xmlns="http://www.mulesoft.com/tooling/project" runtimeId="org.mule.tooling.server.3.4.CE">
+    <name>openhim-report-adapter</name>
+    <description>An adapter to recieve and store indicator reports in the HIM database for the purpose of monitoring the RHIE.</description>
+</mule-project>
