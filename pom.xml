@@ -146,25 +146,6 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<configuration>
-							<tasks>
-								<!-- Using an ant task to deflate cloveretl-engine.zip -->
-								<unzip dest="${project.build.testOutputDirectory}"
-									src="${project.build.testOutputDirectory}/cloveretl-engine.zip" />
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 
