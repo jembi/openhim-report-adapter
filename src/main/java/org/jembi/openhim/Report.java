@@ -30,7 +30,7 @@ public class Report {
 	private int siteId;
 	
 	@Column(name = "transaction_id")
-	private int transactionId = 81420;
+	private int transactionId;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "report")
 	private List<Indicator> indicators;

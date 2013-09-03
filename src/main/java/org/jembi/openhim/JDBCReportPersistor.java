@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.mule.api.MuleEventContext;
 import org.mule.api.MuleMessage;
 import org.mule.api.lifecycle.Callable;
+import org.mule.api.transport.PropertyScope;
 
 public class JDBCReportPersistor implements Callable {
 	
@@ -25,14 +26,18 @@ public class JDBCReportPersistor implements Callable {
 	private static final String insertReport = "INSERT INTO report (report_date, site, transaction_id) VALUES (?, ?, ?)";
 	private static final String insertIndicator = "INSERT INTO indicator (NAME, report_id) VALUES (?, ?)";
 	private static final String insertDataElement = "INSERT INTO data_element (DATATYPE, NAME, UNITS, VALUE, indicator_id) VALUES (?, ?, ?, ?, ?)";
+	private static final String selectTransactionId = "SELECT id from transaction_log WHERE uuid = ?";
+	private static final String selectSiteId = "SELECT id from sites WHERE implementation_id = ?";
 
 	@Override
 	public Object onCall(MuleEventContext eventContext) throws Exception {
 		MuleMessage msg = eventContext.getMessage();
 		Report report = (Report) msg.getPayload();
 		
+		String txUUID = msg.getProperty("OPENHIM_TX_UUID", PropertyScope.INBOUND);
+		
 		try {
-			persistReport(report);
+			persistReport(report, txUUID);
 		} catch (SQLException e) {
 			log.error("Could not save report to database", e);
 		}
@@ -40,11 +45,25 @@ public class JDBCReportPersistor implements Callable {
 		return null;
 	}
 
-	private void persistReport(Report r) throws SQLException {
+	private void persistReport(Report r, String txUUID) throws SQLException {
 		Connection conn = getConnection();
 		conn.setAutoCommit(false);
 		
-		PreparedStatement ps = conn.prepareStatement(insertReport, Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement ps = conn.prepareStatement(selectTransactionId, Statement.RETURN_GENERATED_KEYS);
+		ps.setString(1, txUUID);
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			r.setTransactionId(rs.getInt(1));
+		}
+		
+		ps = conn.prepareStatement(selectSiteId, Statement.RETURN_GENERATED_KEYS);
+		ps.setInt(1, r.getSiteId());
+		rs = ps.executeQuery();
+		if (rs.next()) {
+			r.setSiteId(rs.getInt(1));
+		}
+		
+		ps = conn.prepareStatement(insertReport, Statement.RETURN_GENERATED_KEYS);
 		
 		ps.setDate(1, new Date(r.getDate().getTime()));
 		ps.setInt(2, r.getSiteId());

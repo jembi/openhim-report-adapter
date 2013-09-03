@@ -38,8 +38,7 @@ http://www.mulesoft.org/schema/mule/jbossts http://www.mulesoft.org/schema/mule/
     </spring:beans>
     <jpa:config name="Java_Persistence_API" entityManagerFactory-ref="entityManagerFactory" doc:name="Java Persistence API"/>
     <flow name="openhim-report-adapterFlow1" doc:name="openhim-report-adapterFlow1">
-        <vm:inbound-endpoint exchange-pattern="request-response" path="processReport" doc:name="VM">
-        </vm:inbound-endpoint>
+    	<http:inbound-endpoint exchange-pattern="request-response" host="0.0.0.0" port="8085" path="ws/rest/v1/report" doc:name="HTTP" disableTransportTransformer="true"/>
         <component class="org.jembi.openhim.IndicatorReportXmlToObjectTransformer" doc:name="Store indicator reports"/>
         <logger message="Converted XML to Report object" level="INFO" doc:name="Logger"/>
         <component class="org.jembi.openhim.JDBCReportPersistor" doc:name="JDBC Persist"/>
