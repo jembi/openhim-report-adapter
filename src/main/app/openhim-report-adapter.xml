@@ -1,21 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:jdbc="http://www.mulesoft.org/schema/mule/jdbc" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="CE-3.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.mulesoft.org/schema/mule/jpa" xsi:schemaLocation="
+<mule xmlns:jbossts="http://www.mulesoft.org/schema/mule/jbossts" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:jdbc="http://www.mulesoft.org/schema/mule/jdbc" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="CE-3.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.mulesoft.org/schema/mule/jpa" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
+http://www.mulesoft.org/schema/mule/jpa http://www.mulesoft.org/schema/mule/jpa/1.0/mule-jpa.xsd
+http://www.mulesoft.org/schema/mule/jdbc http://www.mulesoft.org/schema/mule/jdbc/current/mule-jdbc.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/jdbc http://www.mulesoft.org/schema/mule/jdbc/current/mule-jdbc.xsd
-http://www.mulesoft.org/schema/mule/jpa http://www.mulesoft.org/schema/mule/jpa/current/mule-jpa.xsd">
-    <jpa:config name="Java_Persistence_API" entityManagerFactory-ref="entityManagerFactory" doc:name="Java Persistence API"/>
-    <jdbc:mysql-data-source name="MySQL_Data_Source" user="root" password="Jembi#123" url="jdbc:mysql://localhost:3306/interoperability_layer" transactionIsolation="UNSPECIFIED" doc:name="MySQL Data Source"/>
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/jbossts http://www.mulesoft.org/schema/mule/jbossts/current/mule-jbossts.xsd">
     <spring:beans>
+    	<spring:bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
+            <spring:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+            <spring:property name="url" value="jdbc:mysql://localhost:3306/interoperability_layer?user=root&amp;password=Jembi#123" />
+            <spring:property name="defaultAutoCommit" value="true" />
+        </spring:bean>
+        
+    	<spring:bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManager">
+            <spring:property name="entityManagerFactory" ref="entityManagerFactory"/>
+        </spring:bean>
+        
+        <spring:bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.EclipseLinkJpaDialect" />
+        
+        <spring:bean id="eclipseLinkVendor" class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+        	<spring:property name="databasePlatform" value="org.eclipse.persistence.platform.database.MySQLPlatform"/>
+        	<spring:property name="generateDdl" value="false"/>
+		    <spring:property name="showSql" value="false"/>	
+        </spring:bean> 
+        
         <spring:bean id="entityManagerFactory" name="Bean" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        	<spring:property name="dataSource" ref="MySQL_Data_Source" />
+        	<spring:property name="dataSource" ref="dataSource" />
+        	<spring:property name="persistenceUnitName" value="org.jembi.openhim.jpa" />
+        	<spring:property name="jpaDialect" ref="jpaDialect" /> 
+    		<spring:property name="jpaVendorAdapter" ref="eclipseLinkVendor" />
+    		<spring:property name="packagesToScan" value="domain"/>
         </spring:bean>
     </spring:beans>
+    <jpa:config name="Java_Persistence_API" entityManagerFactory-ref="entityManagerFactory" doc:name="Java Persistence API"/>
     <flow name="openhim-report-adapterFlow1" doc:name="openhim-report-adapterFlow1">
-        <http:inbound-endpoint exchange-pattern="request-response" host="0.0.0.0" port="8085" path="ws/rest/v1/report" doc:name="HTTP"/>
-        <component class="org.jembi.openhim.StoreIndicatorReportsComponent" doc:name="Store indicator reports"/>
-        <jpa:persist config-ref="Java_Persistence_API" doc:name="Java Persistence API" entity-ref="#[payload:]"/>
+        <vm:inbound-endpoint exchange-pattern="request-response" path="processReport" doc:name="VM">
+        </vm:inbound-endpoint>
+        <component class="org.jembi.openhim.IndicatorReportXmlToObjectTransformer" doc:name="Store indicator reports"/>
+        <logger message="Converted XML to Report object" level="INFO" doc:name="Logger"/>
+        <component class="org.jembi.openhim.JDBCReportPersistor" doc:name="JDBC Persist"/>
+        <logger message="Saved Report object" level="INFO" doc:name="Logger"/>
+        <scripting:component doc:name="Groovy">
+            <scripting:script engine="Groovy"><![CDATA[message.payload = "";]]></scripting:script>
+        </scripting:component>
+        <http:response-builder status="201" doc:name="HTTP Response Builder" contentType="application/xml"/>
+        <logger message="Sending HTTP responce" level="INFO" doc:name="Logger"/>
     </flow>
 </mule>

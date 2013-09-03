@@ -20,16 +20,14 @@ public class StoreIndicatorReportsComponentTest {
 	@Test
 	public void test() throws IOException, ParserConfigurationException, SAXException, XPathExpressionException, ParseException {
 		String xmlStr = Util.getResourceAsString("generated-message130828.xml");
-		StoreIndicatorReportsComponent sirc = new StoreIndicatorReportsComponent();
+		IndicatorReportXmlToObjectTransformer sirc = new IndicatorReportXmlToObjectTransformer();
 		Document doc = sirc.getMessageAsDocument(xmlStr);
 		
-		List<Report> reports = sirc.extractReports(doc);
+		Report report = sirc.extractReport(doc);
 		
-		assertNotNull(reports);
-		assertEquals(1, reports.size());
+		assertNotNull(report);
 		
-		Report report = reports.get(0);
-		assertEquals("363", report.getSiteId());
+		assertEquals(363, report.getSiteId());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
 		assertEquals(sdf.parse("2013-08-28"), report.getDate());
 		
@@ -42,7 +40,7 @@ public class StoreIndicatorReportsComponentTest {
 		
 		DataElement dataElement = indicator.getDataElements().get(0);
 		assertEquals("minResponseTimeMS", dataElement.getName());
-		assertEquals("int", dataElement.getDataType());
+		assertEquals("int", dataElement.getDatatype());
 		assertEquals("msec", dataElement.getUnits());
 		assertEquals("0", dataElement.getValue());
 	}
