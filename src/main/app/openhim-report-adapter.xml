@@ -41,7 +41,9 @@ http://www.mulesoft.org/schema/mule/jbossts http://www.mulesoft.org/schema/mule/
     	<http:inbound-endpoint exchange-pattern="request-response" host="0.0.0.0" port="8085" path="ws/rest/v1/report" doc:name="HTTP" disableTransportTransformer="true"/>
         <component class="org.jembi.openhim.IndicatorReportXmlToObjectTransformer" doc:name="Store indicator reports"/>
         <logger message="Converted XML to Report object" level="INFO" doc:name="Logger"/>
-        <component class="org.jembi.openhim.JDBCReportPersistor" doc:name="JDBC Persist"/>
+        <transactional action="ALWAYS_BEGIN" doc:name="Transactional">
+            <jpa:persist config-ref="Java_Persistence_API" entity-ref="#[payload:]" flush="true" doc:name="Java Persistence API"/>
+        </transactional>
         <logger message="Saved Report object" level="INFO" doc:name="Logger"/>
         <scripting:component doc:name="Groovy">
             <scripting:script engine="Groovy"><![CDATA[message.payload = "";]]></scripting:script>

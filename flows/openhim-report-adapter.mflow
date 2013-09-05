@@ -24,18 +24,21 @@
             <property-collection name="@http://www.springframework.org/schema/beans/property;0">
                 <property name="name" value="driverClassName"/>
                 <property name="value" value="com.mysql.jdbc.Driver"/>
+                <property name="isProcessed$$$$" value="true"/>
                 <property name="auxiliary;index" value="3"/>
                 <property name="auxiliary;wrapIn" value="3"/>
             </property-collection>
             <property-collection name="@http://www.springframework.org/schema/beans/property;1">
                 <property name="name" value="url"/>
                 <property name="value" value="jdbc:mysql://localhost:3306/interoperability_layer?user=root&amp;password=Jembi#123"/>
+                <property name="isProcessed$$$$" value="true"/>
                 <property name="auxiliary;index" value="4"/>
                 <property name="auxiliary;wrapIn" value="4"/>
             </property-collection>
             <property-collection name="@http://www.springframework.org/schema/beans/property;2">
                 <property name="name" value="defaultAutoCommit"/>
                 <property name="value" value="true"/>
+                <property name="isProcessed$$$$" value="true"/>
                 <property name="auxiliary;index" value="5"/>
                 <property name="auxiliary;wrapIn" value="5"/>
             </property-collection>
@@ -65,6 +68,7 @@
             <property-collection name="@http://www.springframework.org/schema/beans/property;0">
                 <property name="ref" value="entityManagerFactory"/>
                 <property name="name" value="entityManagerFactory"/>
+                <property name="isProcessed$$$$" value="true"/>
                 <property name="auxiliary;index" value="7"/>
                 <property name="auxiliary;wrapIn" value="7"/>
             </property-collection>
@@ -117,18 +121,21 @@
             <property-collection name="@http://www.springframework.org/schema/beans/property;0">
                 <property name="name" value="databasePlatform"/>
                 <property name="value" value="org.eclipse.persistence.platform.database.MySQLPlatform"/>
+                <property name="isProcessed$$$$" value="true"/>
                 <property name="auxiliary;index" value="10"/>
                 <property name="auxiliary;wrapIn" value="10"/>
             </property-collection>
             <property-collection name="@http://www.springframework.org/schema/beans/property;1">
                 <property name="name" value="generateDdl"/>
                 <property name="value" value="false"/>
+                <property name="isProcessed$$$$" value="true"/>
                 <property name="auxiliary;index" value="11"/>
                 <property name="auxiliary;wrapIn" value="11"/>
             </property-collection>
             <property-collection name="@http://www.springframework.org/schema/beans/property;2">
                 <property name="name" value="showSql"/>
                 <property name="value" value="false"/>
+                <property name="isProcessed$$$$" value="true"/>
                 <property name="auxiliary;index" value="12"/>
                 <property name="auxiliary;wrapIn" value="12"/>
             </property-collection>
@@ -158,30 +165,35 @@
             <property-collection name="@http://www.springframework.org/schema/beans/property;0">
                 <property name="ref" value="dataSource"/>
                 <property name="name" value="dataSource"/>
+                <property name="isProcessed$$$$" value="true"/>
                 <property name="auxiliary;index" value="14"/>
                 <property name="auxiliary;wrapIn" value="14"/>
             </property-collection>
             <property-collection name="@http://www.springframework.org/schema/beans/property;1">
                 <property name="name" value="persistenceUnitName"/>
                 <property name="value" value="org.jembi.openhim.jpa"/>
+                <property name="isProcessed$$$$" value="true"/>
                 <property name="auxiliary;index" value="15"/>
                 <property name="auxiliary;wrapIn" value="15"/>
             </property-collection>
             <property-collection name="@http://www.springframework.org/schema/beans/property;2">
                 <property name="ref" value="jpaDialect"/>
                 <property name="name" value="jpaDialect"/>
+                <property name="isProcessed$$$$" value="true"/>
                 <property name="auxiliary;index" value="16"/>
                 <property name="auxiliary;wrapIn" value="16"/>
             </property-collection>
             <property-collection name="@http://www.springframework.org/schema/beans/property;3">
                 <property name="ref" value="eclipseLinkVendor"/>
                 <property name="name" value="jpaVendorAdapter"/>
+                <property name="isProcessed$$$$" value="true"/>
                 <property name="auxiliary;index" value="17"/>
                 <property name="auxiliary;wrapIn" value="17"/>
             </property-collection>
             <property-collection name="@http://www.springframework.org/schema/beans/property;4">
                 <property name="name" value="packagesToScan"/>
                 <property name="value" value="domain"/>
+                <property name="isProcessed$$$$" value="true"/>
                 <property name="auxiliary;index" value="18"/>
                 <property name="auxiliary;wrapIn" value="18"/>
             </property-collection>
@@ -194,7 +206,7 @@
             <property name="auxiliary;index" value="19"/>
         </properties>
     </global-element>
-    <flow SubFlow="false" name="openhim-report-adapterFlow1" entity-id="b652ec1d-814f-4ccd-8c03-cebfd5152adc">
+    <flow SubFlow="false" name="openhim-report-adapterFlow1" entity-id="8ec61e9a-e6ba-471f-99e7-dcd16c67bf57">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
@@ -205,7 +217,7 @@
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
             <graphicalData x="0" y="0" width="0" height="0"/>
             <endpoint direction="Inbound" message-exchange-pattern="RequestResponse" name="HTTP" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#1">
-                <graphicalData x="0" y="0" width="0" height="0"/>
+                <graphicalData x="19" y="214" width="68" height="173"/>
                 <properties>
                     <property name="port" value="8085"/>
                     <property name="host" value="0.0.0.0"/>
@@ -234,14 +246,14 @@
                 </properties>
             </endpoint>
             <pattern name="Store indicator reports" type="http://www.mulesoft.org/schema/mule/core/component" entity-id="Java#1">
-                <graphicalData x="0" y="0" width="0" height="0"/>
+                <graphicalData x="147" y="214" width="169" height="71"/>
                 <properties>
                     <property name="class" value="org.jembi.openhim.IndicatorReportXmlToObjectTransformer"/>
                     <property name="auxiliary;index" value="22"/>
                 </properties>
             </pattern>
             <pattern name="Logger" type="http://www.mulesoft.org/schema/mule/core/logger" entity-id="Logger#1">
-                <graphicalData x="0" y="0" width="0" height="0"/>
+                <graphicalData x="376" y="214" width="68" height="71"/>
                 <properties>
                     <property name="message" value="Converted XML to Report object"/>
                     <property name="category"/>
@@ -249,15 +261,26 @@
                     <property name="auxiliary;index" value="23"/>
                 </properties>
             </pattern>
-            <pattern name="JDBC Persist" type="http://www.mulesoft.org/schema/mule/core/component" entity-id="Java#2">
+            <scope name="Transactional" type="http://www.mulesoft.org/schema/mule/ee/core/transactional-scope" entity-id="054c5610-920c-4d17-8870-c90480ecc4a7">
                 <graphicalData x="0" y="0" width="0" height="0"/>
-                <properties>
-                    <property name="class" value="org.jembi.openhim.JDBCReportPersistor"/>
-                    <property name="auxiliary;index" value="24"/>
-                </properties>
-            </pattern>
+                <compartment entity-id="658b51f4-aa95-4ccc-bc44-1af5bfe6fb4c">
+                    <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="9d95772c-ceed-4798-822a-3c21f4c77ad8">
+                        <pattern name="Java Persistence API" type="http://www.mulesoft.org/schema/mule/jpa/jpa-connector" entity-id="3295bd4c-a6d6-409b-a6b1-0b7385fb7822">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="flush" value="true"/>
+<property name="updated"/>
+<property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/jpa/persist"/>
+<property name="entity-ref" value="#[payload:]"/>
+<property name="config-ref" value="Java_Persistence_API"/>
+                            </properties>
+                            <description></description>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </scope>
             <pattern name="Logger" type="http://www.mulesoft.org/schema/mule/core/logger" entity-id="Logger#2">
-                <graphicalData x="0" y="0" width="0" height="0"/>
+                <graphicalData x="714" y="214" width="68" height="71"/>
                 <properties>
                     <property name="message" value="Saved Report object"/>
                     <property name="category"/>
@@ -266,26 +289,28 @@
                 </properties>
             </pattern>
             <pattern name="Groovy" type="http://www.mulesoft.org/schema/mule/scripting/groovyComponent" entity-id="Groovy#1">
-                <graphicalData x="0" y="0" width="0" height="0"/>
+                <graphicalData x="842" y="214" width="68" height="71"/>
                 <properties>
                     <property name="script-ref"/>
                     <property name="auxiliary;index" value="26"/>
-                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script-for-properties;0">
-                        <property name="text" value="message.payload = &quot;&quot;;"/>
-                        <property name="engine" value="Groovy"/>
-                        <property name="auxiliary;index" value="27"/>
-                        <property name="auxiliary;wrapIn" value="27"/>
-                    </property-collection>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;0">
                         <property name="text" value="message.payload = &quot;&quot;;"/>
                         <property name="engine" value="Groovy"/>
+                        <property name="isProcessed$$$$" value="true"/>
+                        <property name="auxiliary;index" value="27"/>
+                        <property name="auxiliary;wrapIn" value="27"/>
+                    </property-collection>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script-for-properties;0">
+                        <property name="text" value="message.payload = &quot;&quot;;"/>
+                        <property name="engine" value="Groovy"/>
+                        <property name="isProcessed$$$$" value="true"/>
                         <property name="auxiliary;index" value="27"/>
                         <property name="auxiliary;wrapIn" value="27"/>
                     </property-collection>
                 </properties>
             </pattern>
             <pattern name="HTTP Response Builder" type="http://www.mulesoft.org/schema/mule/http/response-builder" entity-id="HTTP Response Builder#1">
-                <graphicalData x="0" y="0" width="0" height="0"/>
+                <graphicalData x="970" y="214" width="168" height="71"/>
                 <properties>
                     <property name="cookiesLabel"/>
                     <property name="status" value="201"/>
@@ -294,7 +319,7 @@
                 </properties>
             </pattern>
             <pattern name="Logger" type="http://www.mulesoft.org/schema/mule/core/logger" entity-id="Logger#3">
-                <graphicalData x="0" y="0" width="0" height="0"/>
+                <graphicalData x="1198" y="214" width="68" height="71"/>
                 <properties>
                     <property name="message" value="Sending HTTP responce"/>
                     <property name="category"/>
